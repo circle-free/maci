@@ -19,11 +19,13 @@
  * along with MACI.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-pragma solidity ^0.5.0;
+// SPDX-License-Identifier: MIT
 
-import { SnarkConstants } from "./SnarkConstants.sol";
-import { Hasher } from "./Hasher.sol";
-import { Ownable } from "@openzeppelin/contracts/ownership/Ownable.sol";
+pragma solidity ^0.7.3;
+
+import "./SnarkConstants.sol";
+import "./Hasher.sol";
+import "../node_modules/@openzeppelin/contracts/access/Ownable.sol";
 
 /*
  * An incremental Merkle tree which supports up to 5 leaves per node.
@@ -33,7 +35,7 @@ contract IncrementalQuinTree is Ownable, Hasher {
     uint8 internal constant MAX_DEPTH = 32;
 
     // The number of leaves per node
-    uint8 internal constant LEAVES_PER_NODE = 5;
+    uint8 internal constant QUIN_LEAVES_PER_NODE = 5;
 
     // The tree depth
     uint8 internal treeLevels;
@@ -65,7 +67,7 @@ contract IncrementalQuinTree is Ownable, Hasher {
      *                   say that the deployer knows the preimage of an empty
      *                   leaf.
      */
-    constructor(uint8 _treeLevels, uint256 _zeroValue) public {
+    constructor(uint8 _treeLevels, uint256 _zeroValue) {
         // Limit the Merkle tree to MAX_DEPTH levels
         require(
             _treeLevels > 0 && _treeLevels <= MAX_DEPTH,
@@ -86,10 +88,10 @@ contract IncrementalQuinTree is Ownable, Hasher {
         uint256 currentZero = _zeroValue;
 
         // hash5 requires a uint256[] memory input, so we have to use temp
-        uint256[] memory temp = new uint256[](LEAVES_PER_NODE);
+        uint256[] memory temp = new uint256[](QUIN_LEAVES_PER_NODE);
 
         for (uint8 i = 0; i < _treeLevels; i++) {
-            for (uint8 j = 0; j < LEAVES_PER_NODE; j ++) {
+            for (uint8 j = 0; j < QUIN_LEAVES_PER_NODE; j ++) {
                 filledSubtrees[i][j] = currentZero;
                 temp[j] = currentZero;
             }
@@ -117,7 +119,7 @@ contract IncrementalQuinTree is Ownable, Hasher {
 
         // Ensure that the tree is not full
         require(
-            nextLeafIndex < uint256(LEAVES_PER_NODE) ** uint256(treeLevels),
+            nextLeafIndex < uint256(QUIN_LEAVES_PER_NODE) ** uint256(treeLevels),
             "IncrementalQuinTree: tree is full"
         );
 
@@ -126,16 +128,16 @@ contract IncrementalQuinTree is Ownable, Hasher {
         uint256 currentLevelHash = _leaf;
 
         // hash5 requires a uint256[] memory input, so we have to use temp
-        uint256[] memory temp = new uint256[](LEAVES_PER_NODE);
+        uint256[] memory temp = new uint256[](QUIN_LEAVES_PER_NODE);
 
         // The leaf's relative position within its node
-        uint256 m = currentIndex % LEAVES_PER_NODE;
+        uint256 m = currentIndex % QUIN_LEAVES_PER_NODE;
 
         for (uint8 i = 0; i < treeLevels; i++) {
             // If the leaf is at relative index 0, zero out the level in
             // filledSubtrees
             if (m == 0) {
-                for (uint8 j = 1; j < LEAVES_PER_NODE; j ++) {
+                for (uint8 j = 1; j < QUIN_LEAVES_PER_NODE; j ++) {
                     filledSubtrees[i][j] = zeros[i];
                 }
             }
@@ -144,13 +146,13 @@ contract IncrementalQuinTree is Ownable, Hasher {
             filledSubtrees[i][m] = currentLevelHash;
 
             // Hash the level
-            for (uint8 j = 0; j < LEAVES_PER_NODE; j ++) {
+            for (uint8 j = 0; j < QUIN_LEAVES_PER_NODE; j ++) {
                 temp[j] = filledSubtrees[i][j];
             }
             currentLevelHash = hash5(temp);
 
-            currentIndex /= LEAVES_PER_NODE;
-            m = currentIndex % LEAVES_PER_NODE;
+            currentIndex /= QUIN_LEAVES_PER_NODE;
+            m = currentIndex % QUIN_LEAVES_PER_NODE;
         }
 
         root = currentLevelHash;

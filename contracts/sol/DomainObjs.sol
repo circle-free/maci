@@ -1,8 +1,10 @@
-pragma experimental ABIEncoderV2;
-pragma solidity ^0.5.0;
+// SPDX-License-Identifier: MIT
 
-import { Hasher } from "./Hasher.sol";
-import { MACISharedObjs } from "./MACISharedObjs.sol";
+pragma solidity ^0.7.3;
+pragma experimental ABIEncoderV2;
+
+import "./Hasher.sol";
+import "./MACISharedObjs.sol";
 
 contract DomainObjs is Hasher, MACISharedObjs {
     struct StateLeaf {

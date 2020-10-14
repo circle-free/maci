@@ -1,15 +1,17 @@
-pragma experimental ABIEncoderV2;
-pragma solidity ^0.5.0;
+// SPDX-License-Identifier: MIT
 
-import { DomainObjs } from './DomainObjs.sol';
-import { IncrementalQuinTree } from "./IncrementalQuinTree.sol";
-import { IncrementalMerkleTree } from "./IncrementalMerkleTree.sol";
-import { SignUpGatekeeper } from "./gatekeepers/SignUpGatekeeper.sol";
-import { InitialVoiceCreditProxy } from './initialVoiceCreditProxy/InitialVoiceCreditProxy.sol';
-import { SnarkConstants } from './SnarkConstants.sol';
-import { ComputeRoot } from './ComputeRoot.sol';
-import { MACIParameters } from './MACIParameters.sol';
-import { VerifyTally } from './VerifyTally.sol';
+pragma solidity ^0.7.3;
+pragma experimental ABIEncoderV2;
+
+import './DomainObjs.sol';
+import "./IncrementalQuinTree.sol";
+import "./IncrementalMerkleTree.sol";
+import "./gatekeepers/SignUpGatekeeper.sol";
+import './initialVoiceCreditProxy/InitialVoiceCreditProxy.sol';
+import './SnarkConstants.sol';
+import './ComputeRoot.sol';
+import './MACIParameters.sol';
+import './VerifyTally.sol';
 
 interface SnarkVerifier {
     function verifyProof(
@@ -132,7 +134,7 @@ contract MACI is DomainObjs, ComputeRoot, MACIParameters, VerifyTally {
         uint256 _votingDurationSeconds,
         InitialVoiceCreditProxy _initialVoiceCreditProxy,
         PubKey memory _coordinatorPubKey
-    ) public {
+    ) {
 
         treeDepths = _treeDepths;
 
@@ -144,7 +146,7 @@ contract MACI is DomainObjs, ComputeRoot, MACIParameters, VerifyTally {
         qvtVerifier = _qvtVerifier;
 
         // Set the sign-up duration
-        signUpTimestamp = now;
+        signUpTimestamp = block.timestamp;
         signUpDurationSeconds = _signUpDurationSeconds;
         votingDurationSeconds = _votingDurationSeconds;
         
@@ -212,7 +214,7 @@ contract MACI is DomainObjs, ComputeRoot, MACIParameters, VerifyTally {
      * current block time is before the sign-up deadline.
      */
     modifier isBeforeSignUpDeadline() {
-        require(now < calcSignUpDeadline(), "MACI: the sign-up period has passed");
+        require(block.timestamp < calcSignUpDeadline(), "MACI: the sign-up period has passed");
         _;
     }
 
@@ -221,7 +223,7 @@ contract MACI is DomainObjs, ComputeRoot, MACIParameters, VerifyTally {
      * current block time is after or equal to the sign-up deadline.
      */
     modifier isAfterSignUpDeadline() {
-        require(now >= calcSignUpDeadline(), "MACI: the sign-up period is not over");
+        require(block.timestamp >= calcSignUpDeadline(), "MACI: the sign-up period is not over");
         _;
     }
 
@@ -237,7 +239,7 @@ contract MACI is DomainObjs, ComputeRoot, MACIParameters, VerifyTally {
      * current block time is before the voting deadline.
      */
     modifier isBeforeVotingDeadline() {
-        require(now < calcVotingDeadline(), "MACI: the voting period has passed");
+        require(block.timestamp < calcVotingDeadline(), "MACI: the voting period has passed");
         _;
     }
 
@@ -246,7 +248,7 @@ contract MACI is DomainObjs, ComputeRoot, MACIParameters, VerifyTally {
      * current block time is after or equal to the voting deadline.
      */
     modifier isAfterVotingDeadline() {
-        require(now >= calcVotingDeadline(), "MACI: the voting period is not over");
+        require(block.timestamp >= calcVotingDeadline(), "MACI: the voting period is not over");
         _;
     }
 
@@ -312,7 +314,7 @@ contract MACI is DomainObjs, ComputeRoot, MACIParameters, VerifyTally {
      * Allows anyone to publish a message (an encrypted command and signature).
      * This function also inserts it into the message tree.
      * @param _message The message to publish
-     * @param _encPubKey An epheremal public key which can be combined with the
+     * @param _encPubKey An ephemeral public key which can be combined with the
      *     coordinator's private key to generate an ECDH shared key which which was
      *     used to encrypt the message.
      */

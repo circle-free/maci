@@ -17,7 +17,8 @@ rm -rf ./compiled/*
 
 echo 'Downloading solc...'
 solcBin=$(pwd)/solc
-wget -nc -q -O $solcBin https://github.com/ethereum/solidity/releases/download/v0.5.17/solc-static-linux
+# wget -nc -q -O $solcBin https://github.com/ethereum/solidity/releases/download/v0.5.17/solc-static-linux
+wget -nc -q -O $solcBin https://github.com/ethereum/solidity/releases/download/v0.7.3/solc-macos
 chmod a+x $solcBin
 
 paths="$(pwd)/sol/,$(pwd)/node_modules/@openzeppelin/"
@@ -28,4 +29,5 @@ $solcBin $oz_map -o ./compiled ./sol/*.sol --overwrite --optimize --bin --abi --
 $solcBin $oz_map -o ./compiled ./sol/**/*.sol --overwrite --optimize --bin --abi --bin-runtime --allow-paths=$paths
 
 # Build the Poseidon contract from bytecode
+echo 'Building Poseidon contracts from script'
 node build/buildPoseidon.js

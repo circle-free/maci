@@ -19,11 +19,14 @@
  * along with Semaphore.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-pragma solidity ^0.5.0;
+// SPDX-License-Identifier: MIT
 
-import { SnarkConstants } from "./SnarkConstants.sol";
-import { Hasher } from "./Hasher.sol";
-import { Ownable } from "@openzeppelin/contracts/ownership/Ownable.sol";
+pragma solidity ^0.7.3;
+
+import "./SnarkConstants.sol";
+import "./Hasher.sol";
+import "../node_modules/@openzeppelin/contracts/access/Ownable.sol";
+
 
 contract IncrementalMerkleTree is Ownable, Hasher {
     // The maximum tree depth
@@ -38,7 +41,7 @@ contract IncrementalMerkleTree is Ownable, Hasher {
     // The Merkle root
     uint256 public root;
 
-    // The Merkle path to the leftmost leaf upon initialisation. It *should
+    // The Merkle path to the leftmost leaf upon initialization. It *should
     // not* be modified after it has been set by the `initMerkleTree` function.
     // Caching these values is essential to efficient appends.
     uint256[MAX_DEPTH] internal zeros;
@@ -61,7 +64,7 @@ contract IncrementalMerkleTree is Ownable, Hasher {
      *                   say that the deployer knows the preimage of an empty
      *                   leaf.
      */
-    constructor(uint8 _treeLevels, uint256 _zeroValue) public {
+    constructor(uint8 _treeLevels, uint256 _zeroValue) {
         // Limit the Merkle tree to MAX_DEPTH levels
         require(
             _treeLevels > 0 && _treeLevels <= MAX_DEPTH,
@@ -69,7 +72,7 @@ contract IncrementalMerkleTree is Ownable, Hasher {
         );
         
         /*
-           To initialise the Merkle tree, we need to calculate the Merkle root
+           To initialize the Merkle tree, we need to calculate the Merkle root
            assuming that each leaf is the zero value.
 
             H(H(a,b), H(c,d))

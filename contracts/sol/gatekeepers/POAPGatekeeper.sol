@@ -1,8 +1,10 @@
-pragma solidity ^0.5.0;
+// SPDX-License-Identifier: MIT
 
-import { SignUpGatekeeper } from './SignUpGatekeeper.sol';
+pragma solidity ^0.7.3;
 
-contract POAPGatekeeper is SignUpGatekeeper {
+import './SignUpGatekeeper.sol';
+
+abstract contract POAPGatekeeper is SignUpGatekeeper {
 
     //function isAllowed(address _user, bytes memory _data) public returns (bool) {
         //return true;

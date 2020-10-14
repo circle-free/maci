@@ -1,8 +1,10 @@
-pragma solidity ^0.5.0;
+// SPDX-License-Identifier: MIT
 
-import {PoseidonT3, PoseidonT6} from "./Poseidon.sol";
+pragma solidity ^0.7.3;
 
-import {SnarkConstants} from "./SnarkConstants.sol";
+import "./Poseidon.sol";
+
+import "./SnarkConstants.sol";
 
 /*
  * Poseidon hash functions for 2, 5, and 11 input elements.

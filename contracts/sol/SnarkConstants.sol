@@ -19,7 +19,9 @@
  * along with Semaphore.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-pragma solidity ^0.5.0;
+// SPDX-License-Identifier: MIT
+
+pragma solidity <= 0.7.3;
 
 contract SnarkConstants {
     // The scalar field
