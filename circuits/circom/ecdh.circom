@@ -1,5 +1,5 @@
-include "../node_modules/circomlib/circuits/bitify.circom";
-include "../node_modules/circomlib/circuits/escalarmulany.circom";
+include "./circomlib-imports/bitify.circom";
+include "./circomlib-imports/escalarmulany.circom";
 
 
 // TODO: Check if public key is on the point

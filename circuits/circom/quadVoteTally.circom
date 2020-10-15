@@ -1,6 +1,6 @@
-include "../node_modules/circomlib/circuits/mux1.circom";
-include "../node_modules/circomlib/circuits/bitify.circom";
-include "../node_modules/circomlib/circuits/comparators.circom";
+include "./circomlib-imports/mux1.circom";
+include "./circomlib-imports/bitify.circom";
+include "./circomlib-imports/comparators.circom";
 include "./trees/incrementalQuinTree.circom";
 include "./trees/incrementalMerkleTree.circom";
 include "./hasherPoseidon.circom";

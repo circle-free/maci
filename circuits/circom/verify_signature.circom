@@ -1,11 +1,11 @@
-include "../node_modules/circomlib/circuits/compconstant.circom";
-include "../node_modules/circomlib/circuits/comparators.circom";
-include "../node_modules/circomlib/circuits/pointbits.circom";
-include "../node_modules/circomlib/circuits/mimcsponge.circom";
+include "./circomlib-imports/compconstant.circom";
+include "./circomlib-imports/comparators.circom";
+include "./circomlib-imports/pointbits.circom";
+include "./circomlib-imports/mimcsponge.circom";
 include "./poseidon/poseidonHashT6.circom";
-include "../node_modules/circomlib/circuits/bitify.circom";
-include "../node_modules/circomlib/circuits/escalarmulany.circom";
-include "../node_modules/circomlib/circuits/escalarmulfix.circom";
+include "./circomlib-imports/bitify.circom";
+include "./circomlib-imports/escalarmulany.circom";
+include "./circomlib-imports/escalarmulfix.circom";
 
 include "./hasherPoseidon.circom";
 

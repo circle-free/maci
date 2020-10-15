@@ -1,5 +1,5 @@
-include "../node_modules/circomlib/circuits/bitify.circom";
-include "../node_modules/circomlib/circuits/escalarmulfix.circom";
+include "./circomlib-imports/bitify.circom";
+include "./circomlib-imports/escalarmulfix.circom";
 
 template PublicKey() {
   // Note: private key

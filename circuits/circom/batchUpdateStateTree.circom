@@ -1,7 +1,7 @@
 include "./trees/incrementalMerkleTree.circom"
 include "./updateStateTree.circom";
-include "../node_modules/circomlib/circuits/mux1.circom";
-include "../node_modules/circomlib/circuits/bitify.circom";
+include "./circomlib-imports/mux1.circom";
+include "./circomlib-imports/bitify.circom";
 
 template BatchUpdateStateTree(
     state_tree_depth,

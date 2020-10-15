@@ -1,5 +1,5 @@
-include "../node_modules/circomlib/circuits/mimc.circom";
-include "../node_modules/circomlib/circuits/escalarmulany.circom";
+include "./circomlib-imports/mimc.circom";
+include "./circomlib-imports/escalarmulany.circom";
 
 
 template Decrypt(N) {

@@ -6,9 +6,9 @@ include "./trees/incrementalQuinTree.circom"
 include "./publickey_derivation.circom"
 include "./verify_signature.circom";
 
-include "../node_modules/circomlib/circuits/comparators.circom";
-include "../node_modules/circomlib/circuits/mux1.circom";
-include "../node_modules/circomlib/circuits/mux2.circom";
+include "./circomlib-imports/comparators.circom";
+include "./circomlib-imports/mux1.circom";
+include "./circomlib-imports/mux2.circom";
 
 template ValidateIndices() {
     signal input vote_options_max_leaf_index;
